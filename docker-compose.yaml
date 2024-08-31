@@ -1,0 +1,22 @@
+services:
+  nextapp:
+    container_name: nextapp
+    image: nextapp:1.0.0
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - goapp
+
+  goapp:
+    container_name: goapp
+    image: goapp:1.0.0
+    build:
+      context: ./backend
+    env_file: 
+      - .env.staging
+    environment:
+      - MODE=${MODE:-staging} # default to staging if not set
+    ports:
+      - "8000:8000"
